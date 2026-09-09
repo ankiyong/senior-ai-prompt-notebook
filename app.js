@@ -39,7 +39,7 @@ function render() {
     path = '/'; topic = null; prompt = null;
   }
   if (path === '/') {
-    main.innerHTML = `<section class="intro"><span class="sample">프롬프트 연습 수첩</span><h1>주제 목록</h1><p class="muted">주제를 고르고, 필요한 프롬프트를 복사해 보세요.</p></section><div id="home-tools"><div class="search"><label for="search">프롬프트 검색</label><input id="search" type="search" aria-describedby="search-help"><p id="search-help" class="muted">예: 요구사항, 실행용, 개선</p></div><p id="result-count" role="status"></p></div><div class="grid">${window.TOPICS.map(t => `<a class="card topic" href="#/topic/${t.id}"><h2>${escapeHTML(t.title)}</h2><p class="muted">${escapeHTML(t.description)}</p><span class="open">프롬프트 ${t.prompts.length}개 보기 →</span></a>`).join('')}</div>`;
+    main.innerHTML = `<section class="intro"><span class="sample">프롬프트 연습 수첩</span><h1>주제 목록</h1><p class="muted">주제를 고르고, 필요한 프롬프트를 복사해 보세요.</p></section><div id="home-tools"><div class="search"><label for="search">프롬프트 검색</label><input id="search" type="search" aria-describedby="search-help"><p id="search-help" class="muted">예: 시작, 결과물, 부탁</p></div><p id="result-count" role="status"></p></div><div class="grid">${window.TOPICS.map(t => `<a class="card topic" href="#/topic/${t.id}"><h2>${escapeHTML(t.title)}</h2><p class="muted">${escapeHTML(t.description)}</p><span class="open">프롬프트 ${t.prompts.length}개 보기 →</span></a>`).join('')}</div>`;
     const grid = document.querySelector('.grid');
     const original = grid.innerHTML;
     document.querySelector('#search').oninput = event => {
@@ -52,7 +52,7 @@ function render() {
   } else if (!prompt) {
     main.innerHTML = `<a class="back" href="#/">← 주제 목록</a><h1>${escapeHTML(topic.title)}</h1><p class="muted">${escapeHTML(topic.description)}</p><p class="sample">연습 예시 · 실제 강의 본문은 아니에요.</p><div class="grid">${topic.prompts.map(p => promptCard(topic, p)).join('')}</div>`;
   } else {
-    main.innerHTML = `<a class="back" href="#/topic/${topic.id}">← 프롬프트 목록</a><p class="eyebrow">${escapeHTML(topic.title)} · 연습 예시</p><h1>${escapeHTML(prompt.title)}</h1><p class="muted">${escapeHTML(prompt.hint)}</p><section class="panel"><h2>AI에게 이렇게 부탁하세요</h2><p>[대괄호] 안을 내 상황에 맞게 바꿔 주세요.</p><div id="prompt-text" class="prompt-body">${escapeHTML(prompt.text)}</div><div class="actions"><button id="copy" class="primary">프롬프트 복사</button></div><div id="status" role="status" aria-live="polite"></div><div id="manual" hidden></div></section><p class="muted">AI 대화창에 붙여넣고, AI가 묻는 말에 답해 보세요. 이 수첩은 AI 답변을 직접 생성하지 않아요.</p>`;
+    main.innerHTML = `<a class="back" href="#/topic/${topic.id}">← 프롬프트 목록</a><p class="eyebrow">${escapeHTML(topic.title)} · 연습 예시</p><h1>${escapeHTML(prompt.title)}</h1><p class="muted">${escapeHTML(prompt.hint)}</p><section class="panel"><h2>AI에게 이렇게 부탁하세요</h2><p>고치거나 빈칸을 채울 필요 없이 그대로 복사하세요.</p><p>AI가 물으면 번호나 짧은 말로 답해요. "모르겠어요"도 괜찮아요. "질문 그만" 또는 "이제 만들어줘"라고 하면 질문을 멈추고 결과물을 만들도록 부탁하는 글이에요.</p><div id="prompt-text" class="prompt-body">${escapeHTML(prompt.text)}</div><div class="actions"><button id="copy" class="primary">프롬프트 복사</button></div><div id="status" role="status" aria-live="polite"></div><div id="manual" hidden></div></section><p class="muted">AI 대화창에 붙여넣고 답해 보세요. 이 수첩은 AI와의 대화를 자동으로 진행하거나 답변을 직접 만들지 않아요. AI마다 지시를 따르는 정도가 달라요. 답은 한 번 더 확인해요.</p>`;
     document.querySelector('#copy').onclick = async () => {
       const status = document.querySelector('#status');
       const manual = document.querySelector('#manual');
